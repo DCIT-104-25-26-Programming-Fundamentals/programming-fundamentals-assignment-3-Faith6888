@@ -44,3 +44,56 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+function calculateSum(numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    sum += numbers[i];
+  }
+  return sum;
+}
+
+function calculateAverage(numbers) {
+  const total = calculateSum(numbers);
+  return total / numbers.length;
+}
+
+function findMaximum(numbers) {
+  let max = numbers[0];
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] > max) {
+      max = numbers[i];
+    }
+  }
+  return max;
+}
+
+function findMinimum(numbers) {
+  let min = numbers[0];
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] < min) {
+      min = numbers[i];
+    }
+  }
+  return min;
+}
+
+const n = parseInt(readlineSync.question('How many numbers please? '));
+
+if (isNaN(n) || n <= 0) {
+  console.log('Error: please enter a positive integer greater than 0.');
+} else {
+  let numbers = [];
+
+  for (let i = 0; i < n; i++) {
+    const value = parseFloat(readlineSync.question(`Enter number ${i + 1}: `));
+    numbers.push(value);
+  }
+
+  console.log('\nResults:');
+  console.log('The sum is    : ' + calculateSum(numbers));
+  console.log('The average is: ' + calculateAverage(numbers));
+  console.log('The maximum is: ' + findMaximum(numbers));
+  console.log('The minimum is: ' + findMinimum(numbers));
+}
