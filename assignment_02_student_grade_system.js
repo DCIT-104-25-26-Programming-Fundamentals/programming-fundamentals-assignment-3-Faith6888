@@ -80,7 +80,7 @@ function main() {
   const grade = getGrade(score);
 
   if (grade === null) {
-    console.log("Error: Score must be between 0 and 100.");
+    console.log("Error: Score must be between 0 and 100 (0-100).");
   } else {
     console.log(`Grade: ${grade}`);
   }
