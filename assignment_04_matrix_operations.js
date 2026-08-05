@@ -70,3 +70,116 @@
 
 const readlineSync = require('readline-sync');
 
+// this block reads the matrix from the user
+function readMatrix(rows, cols, label) {
+  let matrix = [];
+  console.log(`\nEnter ${label} (${rows} rows, ${cols} columns, values separated by spaces):`);
+  for (let i = 0; i < rows; i++) {
+    const line = readlineSync.question(`Enter row ${i + 1}: `);
+    const row = line.split(' ').map(Number);
+    matrix.push(row);
+  }
+  return matrix;
+}
+
+// this prints out the matrix in a readable and understandable format
+function printMatrix(matrix) {
+  for (let i = 0; i < matrix.length; i++) {
+    let rowText = '';
+    for (let j = 0; j < matrix[i].length; j++) {
+      rowText += String(matrix[i][j]).padStart(5);
+    }
+    console.log(rowText);
+  }
+}
+
+// this block finds the transpose of the matrix. i.e. turning the rows into columns
+function transposeMatrix(matrix) {
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+
+  let result = [];
+  for (let j = 0; j < cols; j++) {
+    let newRow = [];
+    for (let i = 0; i < rows; i++) {
+      newRow.push(matrix[i][j]);
+    }
+    result.push(newRow);
+  }
+  return result;
+}
+
+// this block does the addition of matrices. The requirement for such addition is;
+// the two matrices must be the same size   
+function addMatrices(a, b) {
+  const rows = a.length;
+  const cols = a[0].length;
+
+  let result = [];
+  for (let i = 0; i < rows; i++) {
+    let newRow = [];
+    for (let j = 0; j < cols; j++) {
+      newRow.push(a[i][j] + b[i][j]);
+    }
+    result.push(newRow);
+  }
+  return result;
+}
+
+// this block performs the multiplication of matrices. The requirement for this is that;
+// the numbers of columns of the first matrix must equal the number of rows of the second matrix
+function multiplyMatrices(a, b) {
+  const m = a.length;
+  const n = a[0].length;
+  const p = b[0].length;
+
+  let result = [];
+  for (let i = 0; i < m; i++) {
+    let newRow = [];
+    for (let j = 0; j < p; j++) {
+      let sum = 0;
+      for (let k = 0; k < n; k++) {
+        sum += a[i][k] * b[k][j];
+      }
+      newRow.push(sum);
+    }
+    result.push(newRow);
+  }
+  return result;
+}
+
+console.log(' PART A: Transpose a Matrix ');
+const rowsA = parseInt(readlineSync.question('Enter number of rows: '));
+const colsA = parseInt(readlineSync.question('Enter number of columns: '));
+const matrixA = readMatrix(rowsA, colsA, 'the matrix');
+
+console.log('\nOriginal Matrix:');
+printMatrix(matrixA);
+
+console.log('\nTransposed Matrix:');
+printMatrix(transposeMatrix(matrixA));
+
+console.log('\n PART B: Add Two Matrices ');
+console.log(`(Both matrices must be ${rowsA} x ${colsA} to match Part A's first matrix)`);
+const matrixB = readMatrix(rowsA, colsA, 'the second matrix (same size as above)');
+
+console.log('\n Sum of Matrices: ');
+printMatrix(addMatrices(matrixA, matrixB));
+
+console.log('\n PART C: Multiply Two Matrices ');
+console.log('Matrix A: M x N. Matrix B: N x P. (columns of A must equal rows of B)');
+
+const mRows = parseInt(readlineSync.question('Enter number of rows for Matrix A (M): '));
+const nCols = parseInt(readlineSync.question('Enter number of columns for Matrix A / rows for Matrix B (N): '));
+const pCols = parseInt(readlineSync.question('Enter number of columns for Matrix B (P): '));
+
+const matMulA = readMatrix(mRows, nCols, 'Matrix A');
+const matMulB = readMatrix(nCols, pCols, 'Matrix B');
+
+console.log('\nMatrix A:');
+printMatrix(matMulA);
+console.log('\nMatrix B:');
+printMatrix(matMulB);
+
+console.log('\nProduct (A x B):');
+printMatrix(multiplyMatrices(matMulA, matMulB));
