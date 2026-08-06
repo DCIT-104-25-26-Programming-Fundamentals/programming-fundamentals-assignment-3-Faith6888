@@ -60,3 +60,60 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+// HELPER — prints the multiplication table (1 to 12) for a single number
+function printTable(num) {
+    console.log(`Multiplication Table for ${num}:`);
+
+    for (let i = 1; i <= 12; i++) {
+        // padStart(2) right-aligns single-digit numbers so the "=" column lines up
+        let multiplier = String(i).padStart(2);
+        let result = num * i;
+        console.log(`${num}  x  ${multiplier}  =  ${result}`);
+    }
+}
+
+// PART A — Single Table
+function singleTable() {
+    const input = readlineSync.question("Enter a number: ");
+    const num = parseInt(input);
+
+    // Validate that the input is actually a whole number.
+    // Note: we don't require it to be positive here, since multiplication
+    // tables make sense for negative numbers too (e.g. -5's table).
+    if (isNaN(num) || num !== Number(input)) {
+        console.log("Error: please enter a valid integer.");
+        return;
+    }
+
+    printTable(num);
+}
+
+// PART B — Tables from 1 to N
+function tablesUpToN() {
+    const input = readlineSync.question("Enter a number N: ");
+    const n = parseInt(input);
+
+    // n specifically must be a postive integer, since it defines
+    // how many tables we generate (can't generate a negative count of tables)
+    if (isNaN(n) || n <= 0 || n !== Number(input)) {
+        console.log("Error: please enter a positive integer.");
+        return;
+    }
+
+    for (let i = 1; i <= n; i++) {
+        printTable(i);
+        if (i < n) {
+            console.log("---------------------------");
+        }
+    }
+}
+
+// MAIN
+function main() {
+    singleTable();
+    tablesUpToN();
+}
+
+main();
