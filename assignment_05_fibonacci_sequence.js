@@ -55,3 +55,80 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+// the number of terms
+function printFibonacciTerms() {
+    const input = readlineSync.question("How many terms? ");
+    const n = parseInt(input);
+
+// checking to make sure a value entered is positive integer
+    if (isNaN(n) || n <= 0 || n !== Number(input)) {
+        console.log("Error: please enter a positive integer.");
+        return;
+    }
+
+// storing the fibonacci sequence in an array     
+    let sequence = [];
+    let a = 0; // first Fibonacci number
+    let b = 1; // second Fibonacci number
+
+    for (let i = 0; i < n; i++) {
+        sequence.push(a);
+        // Slide the window forward: next "a" is current "b",
+        // next "b" is the sum of the current pair
+        let next = a + b;
+        a = b;
+        b = next;
+    }
+
+    console.log("Fibonacci sequence: " + sequence.join(' '));
+}
+
+// PART B — Check if a Number Belongs to the Sequence
+function checkFibonacciNumber() {
+    const input = readlineSync.question("Enter a number to check if it is part of the Fibonacci sequence: ");
+    const target = parseInt(input);
+
+    if (isNaN(target) || target !== Number(input)) {
+        console.log("Error: please enter a valid number.");
+        return;
+    }
+
+    // Generate Fibonacci numbers with a loop until we reach or pass the target.
+    // We don't know N in advance here, so we keep going until "a" is - making the use of a "while" loop  
+    // large enough to either match or exceed the target.
+    let a = 0;
+    let b = 1;
+    let isFibonacci = false;
+
+    // Special case: 0 is always the first Fibonacci number
+    if (target === 0) {
+        isFibonacci = true;
+    } else if (target > 0) {
+        while (a <= target) {
+            if (a === target) {
+                isFibonacci = true;
+                break;
+            }
+            let next = a + b;
+            a = b;
+            b = next;
+        }
+    }
+    // Negative numbers are not Fibonacci numbers, so isFibonacci stays false
+
+    if (isFibonacci) {
+        console.log(target + " is a Fibonacci number.");
+    } else {
+        console.log(target + " is not a Fibonacci number.");
+    }
+}
+
+// MAIN — run both parts
+function main() {
+    printFibonacciTerms();
+    checkFibonacciNumber();
+}
+
+main();
