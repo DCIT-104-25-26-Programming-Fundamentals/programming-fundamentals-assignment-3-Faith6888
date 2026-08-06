@@ -67,7 +67,6 @@ function printTable(num) {
     console.log(`Multiplication Table for ${num}:`);
 
     for (let i = 1; i <= 12; i++) {
-        // padStart(2) right-aligns single-digit numbers so the "=" column lines up
         let multiplier = String(i).padStart(2);
         let result = num * i;
         console.log(`${num}  x  ${multiplier}  =  ${result}`);
@@ -110,7 +109,6 @@ function tablesUpToN() {
     }
 }
 
-// MAIN
 function main() {
     singleTable();
     tablesUpToN();
