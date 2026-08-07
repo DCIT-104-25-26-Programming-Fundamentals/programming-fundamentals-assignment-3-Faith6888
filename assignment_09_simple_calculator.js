@@ -75,3 +75,114 @@
 // =============================================================================
 
 
+const readline = require('readline-sync');
+
+// the addition function that returns a sum
+function add(a, b) {
+    return a + b;
+}
+
+// the subtract function that returns a difference
+function subtract(a, b) {
+    return a - b;
+}
+
+// the multiplication function that returns a product
+function multiply(a, b) {
+    return a * b;
+}
+
+// the division function that returns a quotient
+function divide(a, b) {
+    if (b === 0) {
+        return null;
+    }
+    return a / b;
+}
+
+// the modulus function that returns the remainder of a divided by b
+function modulus(a, b) {
+    if (b === 0) {
+        return null;
+    }
+    return a % b;
+}
+
+// the exponentiation function that returns a raised to the power of b
+function exponentiate(a, b) {
+    return a ** b;
+}
+
+// a function defining the format of the menu as suggested by the assignment guidelines
+function showMenu() {
+    console.log('============================');
+    console.log('     SIMPLE CALCULATOR');
+    console.log('============================');
+    console.log('1. Addition');
+    console.log('2. Subtraction');
+    console.log('3. Multiplication');
+    console.log('4. Division');
+    console.log('5. Modulus');
+    console.log('6. Exponentiation');
+    console.log('7. Quit');
+}
+// asking the user for two numbers to work on 
+function getTwoNumbers() {
+    let a = Number(readline.question('Enter first number : '));
+    let b = Number(readline.question('Enter second number: '));
+    return [a, b];
+}
+
+// runs the chosen operation on the two numbers and prints the result, or an error if dividing/modulus by zero
+function performOperation(symbol, operation) {
+    let numbers = getTwoNumbers();
+    let a = numbers[0];
+    let b = numbers[1];
+
+    let result = operation(a, b);
+
+    if (result === null) {
+        console.log('Error: Cannot divide by zero.');
+        return;
+    }
+
+    console.log(`Result: ${a} ${symbol} ${b} = ${result.toFixed(2)}`);
+}
+
+// the main function that shows the menu, reads the user's choice, and runs the matching operation until they quit
+function main() {
+    while (true) {
+        showMenu();
+        let choice = readline.question('Select an operation (1-7): ');
+
+        switch (choice) {
+            case '1':
+                performOperation('+', add);
+                break;
+            case '2':
+                performOperation('-', subtract);
+                break;
+            case '3':
+                performOperation('*', multiply);
+                break;
+            case '4':
+                performOperation('/', divide);
+                break;
+            case '5':
+                performOperation('%', modulus);
+                break;
+            case '6':
+                performOperation('**', exponentiate);
+                break;
+            case '7':
+                console.log('Goodbye!');
+                return;
+            default:
+                console.log('Invalid choice. Please enter a number from 1 to 7.');
+        }
+
+        console.log();
+    }
+}
+
+main();
