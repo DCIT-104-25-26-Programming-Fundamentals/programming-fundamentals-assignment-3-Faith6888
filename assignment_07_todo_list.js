@@ -82,3 +82,88 @@
 // =============================================================================
 
 
+const readline = require('readline-sync');
+
+let tasks = [];
+
+// defining a function that stores an entered task and siplay a message upon successful storage
+function addTask() {
+    let task = readline.question('Please enter a task: ');
+    tasks.push(task);
+    console.log(`Task has been successfully added: "${task}"`);
+}
+
+// a function that returns a message if the to-do list the user seeks has no tasks in it
+function viewTasks() {
+    if (tasks.length === 0) {
+        console.log('Your to-do list is empty! Kindly add something to get started');
+        return;
+    }
+
+    console.log('Your Tasks:');
+    for (let i = 0; i < tasks.length; i++) {
+        console.log(`${i + 1}. ${tasks[i]}`);
+    }
+}
+
+// a function for a user to select a number assigned to a numbered list of tasks to delete it
+function deleteTask() {
+    if (tasks.length === 0) {
+        console.log('There are no tasks to delete!');
+        return;
+    }
+
+    viewTasks();
+
+    let choice = Number(readline.question('Enter task number to delete: '));
+    let index = choice - 1;
+
+    if (isNaN(choice) || index < 0 || index >= tasks.length) {
+        console.log('Invalid task number.');
+        return;
+    }
+
+    let removedTask = tasks[index];
+    tasks.splice(index, 1);
+    console.log(`Task "${removedTask}" has been removed successfully.`);
+}
+
+// the menu format for the program as required by the assignment guidelines
+function showMenu() {
+    console.log('============================');
+    console.log('     TO-DO LIST MENU');
+    console.log('============================');
+    console.log('1. Add task');
+    console.log('2. View tasks');
+    console.log('3. Delete task');
+    console.log('4. Quit');
+}
+
+// assigning to each function a number such that if a user says click 1 they know it is addtask and so does the computer
+function main() {
+    while (true) {
+        showMenu();
+        let choice = readline.question('Enter your choice (1-4): ');
+
+        switch (choice) {
+            case '1':
+                addTask();
+                break;
+            case '2':
+                viewTasks();
+                break;
+            case '3':
+                deleteTask();
+                break;
+            case '4':
+                console.log('Goodbye!');
+                return;
+            default:
+                console.log('Invalid choice. Please enter a number from 1 to 4.');
+        }
+
+        console.log();
+    }
+}
+
+main();
